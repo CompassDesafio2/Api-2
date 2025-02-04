@@ -1,13 +1,13 @@
-package com.javeiros.desafio2;
+package com.javeiros.microserviceB;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Desafio2Application {
+public class MicroServiceBApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Desafio2Application.class, args);
+        SpringApplication.run(MicroServiceBApplication.class, args);
     }
 
 }

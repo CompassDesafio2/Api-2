@@ -1,10 +1,10 @@
-package com.javeiros.desafio2;
+package com.javeiros.microserviceB;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Desafio2ApplicationTests {
+class MicroServiceBApplicationTests {
 
     @Test
     void contextLoads() {
