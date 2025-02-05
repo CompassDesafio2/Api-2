@@ -1,7 +1,7 @@
 package com.javeiros.microserviceB.services;
 
 import com.javeiros.microserviceB.entities.Post;
-import com.javeiros.microserviceB.entities.dto.PostCreateDTO;
+import com.javeiros.microserviceB.entities.dto.PostDTO;
 import com.javeiros.microserviceB.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,8 +50,8 @@ public class PostServices {
 
     }
 
-    public Post fromDTO(PostCreateDTO objDTO) {
-        return new Post(objDTO.getId(), objDTO.getTitle(), objDTO.getBody());
+    public Post fromDTO(PostDTO objDTO) {
+        return new Post(objDTO.getId(), objDTO.getUserId(), objDTO.getTitle(), objDTO.getBody());
 
     }
 

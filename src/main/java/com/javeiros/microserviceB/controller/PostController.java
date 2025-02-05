@@ -1,8 +1,7 @@
 package com.javeiros.microserviceB.controller;
 
 import com.javeiros.microserviceB.entities.Post;
-import com.javeiros.microserviceB.entities.dto.PostCreateDTO;
-import com.javeiros.microserviceB.entities.dto.PostResponseDTO;
+import com.javeiros.microserviceB.entities.dto.PostDTO;
 import com.javeiros.microserviceB.services.PostServices;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,13 +30,13 @@ public class PostController {
                             description = "SUCCESS",
                             content = @Content(
                                     mediaType = "application/json;charset=UTF-8",
-                                    schema = @Schema(implementation = PostResponseDTO.class))
+                                    schema = @Schema(implementation = PostDTO.class))
                     ),
             })
     @GetMapping
-    public ResponseEntity<List<PostResponseDTO>> getAllPost() {
+    public ResponseEntity<List<PostDTO>> getAllPost() {
         List<Post> list = services.findAll();
-        List<PostResponseDTO>  listDTO = list.stream().map(PostResponseDTO::new).toList();
+        List<PostDTO>  listDTO = list.stream().map(PostDTO::new).toList();
 
         return ResponseEntity.ok().body(listDTO);
     }
@@ -50,7 +49,7 @@ public class PostController {
                             description = "Client Created with SUCCESS",
                             content = @Content(
                                     mediaType = "application/json;charset=UTF-8",
-                                    schema = @Schema(implementation = PostCreateDTO.class))
+                                    schema = @Schema(implementation = PostDTO.class))
                     ),
             })
     @GetMapping("/{id}")
@@ -68,12 +67,12 @@ public class PostController {
                             description = "SUCCESS",
                             content = @Content(
                                     mediaType = "application/json;charset=UTF-8",
-                                    schema = @Schema(implementation = PostCreateDTO.class))
+                                    schema = @Schema(implementation = PostDTO.class))
                     ),
 
             })
     @PostMapping
-    public ResponseEntity<Post> insertPost(@RequestBody PostCreateDTO objDTO) {
+    public ResponseEntity<Post> insertPost(@RequestBody PostDTO objDTO) {
         Post obj = services.fromDTO(objDTO);
         obj = services.save(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
@@ -82,7 +81,7 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Post> updatePost(@PathVariable String id, @RequestBody PostCreateDTO objDTO) {
+    public ResponseEntity<Post> updatePost(@PathVariable String id, @RequestBody PostDTO objDTO) {
         Post obj = services.fromDTO(objDTO);
         obj.setId(id);
         obj = services.update(obj);
