@@ -1,5 +1,7 @@
 HELP.md
 target/
+target
+target/**
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -15,6 +17,8 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
+.idea/**
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -31,3 +35,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### ENV FILES
+.env.properties
+.env
