@@ -32,7 +32,7 @@ public class SpringSecurityConfig {
                 .httpBasic(basic -> basic.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(DOCUMENTATION_OPENAPI).permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }

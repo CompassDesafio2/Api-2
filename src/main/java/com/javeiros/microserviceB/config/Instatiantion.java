@@ -1,13 +1,13 @@
 package com.javeiros.microserviceB.config;
 
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
+import com.javeiros.microserviceB.entities.Post;
+import com.javeiros.microserviceB.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.core.MongoTemplate;
+
+import java.util.Arrays;
 
 
 @Configuration
@@ -15,20 +15,17 @@ public class Instatiantion implements CommandLineRunner {
 
 
     @Autowired
-    private MongoTemplate mongoTemplate;
-
+    private PostRepository postRepository;
 
     @Override
     public void run(String... args) throws Exception {
-        MongoDatabase db = mongoTemplate.getDb();
 
-        mongoTemplate.dropCollection("teste");
+        Post p1 = new Post("1", "1", "Teste de Praia", " Teste 1");
+        Post p2 = new Post("2", "2", "Teste de Praia", " Teste 2");
+        Post p3 = new Post("3", "3", "Teste de Praia", " Teste 3");
+        Post p4 = new Post("4", "4", "Teste de Praia", " Teste 4");
+        postRepository.saveAll(Arrays.asList(p1, p2, p3, p4));
 
-        Document doc = new Document("nome", "Exemplo")
-                .append("idade", 25)
-                .append("cidade", "São Paulo");
-
-        mongoTemplate.getCollection("teste").insertOne(doc);
         System.out.println("Documento inserido com sucesso!");
 
 
