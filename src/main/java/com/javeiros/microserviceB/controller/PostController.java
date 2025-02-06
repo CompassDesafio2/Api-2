@@ -36,23 +36,21 @@ public class PostController  {
             responses = {
                     @ApiResponse(responseCode = "201",
                             description = "Os dados da API foram atualizados!",
-                            content = @Content(
-                                    mediaType = "application/json;charset=UTF-8",
-                                    schema = @Schema(implementation = PostDTO.class))
+
                     ),
 
                     @ApiResponse(responseCode = "404",
                             description = "Nenhuma Postagem foi encontrada",
                             content = @Content(
                                     mediaType = "application/json;charset=UTF-8",
-                                    schema = @Schema(implementation = PostDTO.class))
+                                    schema = @Schema(implementation = ErrorMessage.class))
                     ),
             })
 
     @PostMapping("/fetch-data")
-    public ResponseEntity<Void> fetchData() {
+    public ResponseEntity<String> fetchData() {
         jsonApiServices.fetchData();
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Atualização dos dados do banco de dados feita com sucesso!");
 
     }
 
@@ -70,7 +68,7 @@ public class PostController  {
                             description = "Nenhuma Postagem foi encontrada",
                             content = @Content(
                                     mediaType = "application/json;charset=UTF-8",
-                                    schema = @Schema(implementation = PostDTO.class))
+                                    schema = @Schema(implementation = ErrorMessage.class))
                     ),
 
             })
@@ -92,6 +90,13 @@ public class PostController  {
                                     mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = PostDTO.class))
                     ),
+                    @ApiResponse(responseCode = "404",
+                            description = "Post Não Encontrado",
+                            content = @Content(
+                                    mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = ErrorMessage.class))
+                    ),
+
             })
     @GetMapping("/{id}")
     public ResponseEntity<Post> getPost(@PathVariable String id) {
