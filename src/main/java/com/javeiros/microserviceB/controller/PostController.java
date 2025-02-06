@@ -1,5 +1,6 @@
 package com.javeiros.microserviceB.controller;
 
+import com.javeiros.microserviceB.MicroServiceBApplication;
 import com.javeiros.microserviceB.entities.Post;
 import com.javeiros.microserviceB.entities.dto.PostDTO;
 import com.javeiros.microserviceB.services.PostServices;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -15,9 +17,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+
+
+
 @RestController
 @RequestMapping(value = "/posts")
-public class PostController {
+public class PostController  {
 
     @Autowired
     private PostServices services;
