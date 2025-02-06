@@ -23,15 +23,23 @@ public class PostController {
     private PostServices services;
 
 
-    @Operation(summary = "Pegar Todos as POSTAGENS", description = "Pegar as Postagens salvas no Banco",
+    @Operation(summary = "GET ALL POSTAGEM", description = "Pegar todas as Postagens salvas no banco",
 
             responses = {
-                    @ApiResponse(responseCode = "201",
-                            description = "SUCCESS",
+                    @ApiResponse(responseCode = "200",
+                            description = "Todas as Postagens foram retornadas!",
                             content = @Content(
                                     mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = PostDTO.class))
                     ),
+
+                    @ApiResponse(responseCode = "404",
+                            description = "Nenhuma Postagem foi encontrada",
+                            content = @Content(
+                                    mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = PostDTO.class))
+                    ),
+
             })
     @GetMapping
     public ResponseEntity<List<PostDTO>> getAllPost() {
@@ -42,11 +50,11 @@ public class PostController {
     }
 
 
-    @Operation(summary = "Informação de Um POST", description = "Pegar as inforrmações de uma Postagem",
+    @Operation(summary = "Informação de Um POST", description = "Pegar as informações de uma Postagem",
 
             responses = {
-                    @ApiResponse(responseCode = "201",
-                            description = "Client Created with SUCCESS",
+                    @ApiResponse(responseCode = "200",
+                            description = "Postagem encontrada com Sucesso",
                             content = @Content(
                                     mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = PostDTO.class))
@@ -64,7 +72,7 @@ public class PostController {
 
             responses = {
                     @ApiResponse(responseCode = "201",
-                            description = "SUCCESS",
+                            description = " Novo Post Criado com Sucesso",
                             content = @Content(
                                     mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = PostDTO.class))
@@ -80,6 +88,17 @@ public class PostController {
 
     }
 
+    @Operation(summary = "Atualizar Postagem", description = "Atualizar todas as informações de uma Postagem através da ID informada",
+
+            responses = {
+                    @ApiResponse(responseCode = "204",
+                            description = "Atualização feita com sucesso",
+                            content = @Content(
+                                    mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = PostDTO.class))
+                    ),
+
+            })
     @PutMapping("/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable String id, @RequestBody PostDTO objDTO) {
         Post obj = services.fromDTO(objDTO);
@@ -90,6 +109,16 @@ public class PostController {
     }
 
 
+    @Operation(summary = "Deletar POSTAGEM", description = "Deletar uma Postagem através da ID informada",
+
+            responses = {
+                    @ApiResponse(responseCode = "204",
+                            description = "Client Created with SUCCESS",
+                            content = @Content(
+                                    mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = PostDTO.class))
+                    ),
+            })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable String id) {
         services.delete(id);
