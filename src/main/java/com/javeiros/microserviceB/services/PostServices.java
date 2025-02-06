@@ -2,8 +2,11 @@ package com.javeiros.microserviceB.services;
 
 import com.javeiros.microserviceB.entities.Post;
 import com.javeiros.microserviceB.entities.dto.PostDTO;
+import com.javeiros.microserviceB.exception.DataBaseException;
+import com.javeiros.microserviceB.exception.EntityNotFoundException;
 import com.javeiros.microserviceB.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,22 +24,39 @@ public class PostServices {
 
 
     public Post findById(String id) {
+
         Optional<Post> post = repository.findById(id);
-        return post.orElseThrow(() -> new RuntimeException("Post Not Find"));
+        return post.orElseThrow(() -> new EntityNotFoundException("Post not found"));
+
     }
 
     public List<Post> findAll() {
+        try {
+
         return repository.findAll();
+        } catch (DataAccessException e) {
+            throw new DataBaseException("Database error");
+        }
     }
 
     public Post save(Post post) {
-        return repository.save(post);
+        try {
+            return repository.save(post);
+        } catch (DataBaseException e) {
+            throw new DataBaseException("Database error");
+        }
     }
 
     public Post update(Post obj) {
-        Post newPost = findById(obj.getId());
-        updateData(newPost, obj);
-        return repository.save(newPost);
+        try {
+            Post newPost = findById(obj.getId());
+            updateData(newPost, obj);
+            return repository.save(newPost);
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("Post not found");
+        } catch (DataAccessException e) {
+            throw new DataBaseException("Database error");
+        }
     }
 
     private void updateData(Post newPost, Post obj) {
@@ -45,13 +65,25 @@ public class PostServices {
     }
 
     public void delete(String id) {
-        repository.findById(id).orElseThrow(() -> new RuntimeException("Post Not Find"));
-        repository.deleteById(id);
+        try {
+
+            repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Post not found"));
+            repository.deleteById(id);
+        } catch (DataAccessException e) {
+            throw new DataBaseException("Database error");
+        }
 
     }
 
     public Post fromDTO(PostDTO objDTO) {
+        try {
+
         return new Post(objDTO.getId(), objDTO.getUserId(), objDTO.getTitle(), objDTO.getBody());
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("Post not found");
+        } catch (DataAccessException e) {
+            throw new DataBaseException("Database error");
+        }
 
     }
 

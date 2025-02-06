@@ -1,15 +1,15 @@
 package com.javeiros.microserviceB.controller;
 
-import com.javeiros.microserviceB.MicroServiceBApplication;
+import com.javeiros.microserviceB.clients.JsonPlaceHolderService;
 import com.javeiros.microserviceB.entities.Post;
 import com.javeiros.microserviceB.entities.dto.PostDTO;
+import com.javeiros.microserviceB.exception.ErrorMessage;
 import com.javeiros.microserviceB.services.PostServices;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -27,16 +27,52 @@ public class PostController  {
     @Autowired
     private PostServices services;
 
+    @Autowired
+    private JsonPlaceHolderService jsonApiServices;
 
-    @Operation(summary = "Pegar Todos as POSTAGENS", description = "Pegar as Postagens salvas no Banco",
+
+    @Operation(summary = "FETCH DATA", description = "Atualiza os dados do banco de dados",
 
             responses = {
                     @ApiResponse(responseCode = "201",
-                            description = "SUCCESS",
+                            description = "Os dados da API foram atualizados!",
                             content = @Content(
                                     mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = PostDTO.class))
                     ),
+
+                    @ApiResponse(responseCode = "404",
+                            description = "Nenhuma Postagem foi encontrada",
+                            content = @Content(
+                                    mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = PostDTO.class))
+                    ),
+            })
+
+    @PostMapping("/fetch-data")
+    public ResponseEntity<Void> fetchData() {
+        jsonApiServices.fetchData();
+        return ResponseEntity.ok().build();
+
+    }
+
+
+
+
+    @Operation(summary = "GET ALL POSTAGEM", description = "Pegar todas as Postagens salvas no banco",
+
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "Todas as Postagens foram retornadas!"
+                    ),
+
+                    @ApiResponse(responseCode = "404",
+                            description = "Nenhuma Postagem foi encontrada",
+                            content = @Content(
+                                    mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = PostDTO.class))
+                    ),
+
             })
     @GetMapping
     public ResponseEntity<List<PostDTO>> getAllPost() {
@@ -47,11 +83,11 @@ public class PostController  {
     }
 
 
-    @Operation(summary = "Informação de Um POST", description = "Pegar as inforrmações de uma Postagem",
+    @Operation(summary = "Informação de Um POST", description = "Pegar as informações de uma Postagem",
 
             responses = {
-                    @ApiResponse(responseCode = "201",
-                            description = "Client Created with SUCCESS",
+                    @ApiResponse(responseCode = "200",
+                            description = "Postagem encontrada com Sucesso",
                             content = @Content(
                                     mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = PostDTO.class))
@@ -69,11 +105,12 @@ public class PostController  {
 
             responses = {
                     @ApiResponse(responseCode = "201",
-                            description = "SUCCESS",
+                            description = " Novo Post Criado com Sucesso",
                             content = @Content(
                                     mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = PostDTO.class))
                     ),
+
 
             })
     @PostMapping
@@ -85,16 +122,49 @@ public class PostController  {
 
     }
 
+    @Operation(summary = "Atualizar Postagem", description = "Atualizar todas as informações de uma Postagem através da ID informada",
+
+            responses = {
+                    @ApiResponse(responseCode = "204",
+                            description = "Atualização feita com sucesso",
+                            content = @Content(
+                                    mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = PostDTO.class))
+                    ),
+                    @ApiResponse(responseCode = "404",
+                            description = "Post Não Encontrado",
+                            content = @Content(
+                                    mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = ErrorMessage.class))
+                    ),
+
+            })
     @PutMapping("/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable String id, @RequestBody PostDTO objDTO) {
         Post obj = services.fromDTO(objDTO);
         obj.setId(id);
         obj = services.update(obj);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(204).body(obj);
     }
 
 
+    @Operation(summary = "Deletar POSTAGEM", description = "Deletar uma Postagem através da ID informada",
+
+            responses = {
+                    @ApiResponse(responseCode = "204",
+                            description = "Postagem Deletada Com Sucesso",
+                            content = @Content(
+                                    mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = PostDTO.class))
+                    ),
+                    @ApiResponse(responseCode = "404",
+                            description = "Post Não Encontrado",
+                            content = @Content(
+                                    mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = ErrorMessage.class))
+                    ),
+            })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable String id) {
         services.delete(id);
