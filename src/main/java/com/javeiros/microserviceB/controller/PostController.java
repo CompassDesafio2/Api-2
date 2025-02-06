@@ -1,6 +1,6 @@
 package com.javeiros.microserviceB.controller;
 
-import com.javeiros.microserviceB.MicroServiceBApplication;
+import com.javeiros.microserviceB.clients.JsonPlaceHolderService;
 import com.javeiros.microserviceB.entities.Post;
 import com.javeiros.microserviceB.entities.dto.PostDTO;
 import com.javeiros.microserviceB.services.PostServices;
@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -27,15 +26,43 @@ public class PostController  {
     @Autowired
     private PostServices services;
 
+    @Autowired
+    private JsonPlaceHolderService jsonApiServices;
+
+
+    @Operation(summary = "FETCH DATA", description = "Atualiza os dados do banco de dados",
+
+            responses = {
+                    @ApiResponse(responseCode = "201",
+                            description = "Os dados da API foram atualizados!",
+                            content = @Content(
+                                    mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = PostDTO.class))
+                    ),
+
+                    @ApiResponse(responseCode = "404",
+                            description = "Nenhuma Postagem foi encontrada",
+                            content = @Content(
+                                    mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = PostDTO.class))
+                    ),
+            })
+
+    @PostMapping("/fetch-data")
+    public ResponseEntity<Void> fetchData() {
+        jsonApiServices.fetchData();
+        return ResponseEntity.ok().build();
+
+    }
+
+
+
 
     @Operation(summary = "GET ALL POSTAGEM", description = "Pegar todas as Postagens salvas no banco",
 
             responses = {
                     @ApiResponse(responseCode = "200",
-                            description = "Todas as Postagens foram retornadas!",
-                            content = @Content(
-                                    mediaType = "application/json;charset=UTF-8",
-                                    schema = @Schema(implementation = PostDTO.class))
+                            description = "Todas as Postagens foram retornadas!"
                     ),
 
                     @ApiResponse(responseCode = "404",

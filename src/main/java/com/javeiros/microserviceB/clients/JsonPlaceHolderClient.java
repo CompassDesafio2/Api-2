@@ -7,8 +7,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @FeignClient(name = "jsonPlaceholderClient", url = "https://jsonplaceholder.typicode.com")
 public interface JsonPlaceHolderClient {
+
+
+    @GetMapping("/posts")
+    List<Post> getPosts();
 
     @GetMapping("/posts/{id}")
     Post getPostById(@PathVariable Long id);
