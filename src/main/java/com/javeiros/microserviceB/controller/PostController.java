@@ -35,7 +35,7 @@ public class PostController  {
 
             responses = {
                     @ApiResponse(responseCode = "201",
-                            description = "Os dados da API foram atualizados!",
+                            description = "Os dados da API foram atualizados!"
 
                     ),
 
@@ -106,7 +106,7 @@ public class PostController  {
     }
 
 
-    @Operation(summary = "Criar Novo Post", description = "CREATE",
+    @Operation(summary = "Criar Novo Post", description = "Criar Postagens",
 
             responses = {
                     @ApiResponse(responseCode = "201",
