@@ -3,6 +3,7 @@ package com.javeiros.microserviceB.controller;
 import com.javeiros.microserviceB.clients.JsonPlaceHolderService;
 import com.javeiros.microserviceB.entities.Post;
 import com.javeiros.microserviceB.entities.dto.PostDTO;
+import com.javeiros.microserviceB.exception.ErrorMessage;
 import com.javeiros.microserviceB.services.PostServices;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -110,6 +111,7 @@ public class PostController  {
                                     schema = @Schema(implementation = PostDTO.class))
                     ),
 
+
             })
     @PostMapping
     public ResponseEntity<Post> insertPost(@RequestBody PostDTO objDTO) {
@@ -129,6 +131,12 @@ public class PostController  {
                                     mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = PostDTO.class))
                     ),
+                    @ApiResponse(responseCode = "404",
+                            description = "Post Não Encontrado",
+                            content = @Content(
+                                    mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = ErrorMessage.class))
+                    ),
 
             })
     @PutMapping("/{id}")
@@ -137,7 +145,7 @@ public class PostController  {
         obj.setId(id);
         obj = services.update(obj);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(204).body(obj);
     }
 
 
@@ -145,10 +153,16 @@ public class PostController  {
 
             responses = {
                     @ApiResponse(responseCode = "204",
-                            description = "Client Created with SUCCESS",
+                            description = "Postagem Deletada Com Sucesso",
                             content = @Content(
                                     mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = PostDTO.class))
+                    ),
+                    @ApiResponse(responseCode = "404",
+                            description = "Post Não Encontrado",
+                            content = @Content(
+                                    mediaType = "application/json;charset=UTF-8",
+                                    schema = @Schema(implementation = ErrorMessage.class))
                     ),
             })
     @DeleteMapping("/{id}")
