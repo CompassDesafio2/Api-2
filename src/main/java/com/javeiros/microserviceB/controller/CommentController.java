@@ -78,7 +78,6 @@ public class CommentController {
     @GetMapping("/{id}")
     public ResponseEntity<Comment> getComment(@PathVariable String id) {
         Comment comment = services.findById(id);
-        System.out.println(comment);
         return ResponseEntity.ok().body(comment);
     }
 
