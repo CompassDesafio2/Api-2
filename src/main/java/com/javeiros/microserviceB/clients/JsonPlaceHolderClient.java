@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.xml.stream.events.Comment;
 import java.util.List;
 
 @FeignClient(name = "jsonPlaceholderClient", url = "https://jsonplaceholder.typicode.com")
@@ -21,4 +22,12 @@ public interface JsonPlaceHolderClient {
 
     @PostMapping("/posts")
     Post createPost(@RequestBody Post post);
+
+
+    @GetMapping("/comments")
+    List<Comment> getComments();
+
+
+
+
 }
