@@ -41,10 +41,6 @@ Verifique o log de inicialização do Spring para ver se tudo está rodando conf
 
 
 
-
-
-
-
 ## Documentação da API
 
 Rota para acessar o Swagger: [localhost:8081/api/v1/docs/](http://localhost:8081/api/v1/docs/)
@@ -52,8 +48,9 @@ Rota para acessar o Swagger: [localhost:8081/api/v1/docs/](http://localhost:8081
 #### Endpoint para o Swagger
 
 ```http
-  GET http://localhost:8081/api/v1/docs/
-  ```
+
+    http://localhost:8081/api/v1/docs/
+```
 
 
 ---
