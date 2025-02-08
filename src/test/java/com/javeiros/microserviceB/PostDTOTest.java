@@ -3,14 +3,16 @@ package com.javeiros.microserviceB;
 import com.javeiros.microserviceB.entities.Post;
 import com.javeiros.microserviceB.entities.dto.PostDTO;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 
 public class PostDTOTest {
 
     private Post post;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         post = new Post();
         post.setId("1");
@@ -22,7 +24,6 @@ public class PostDTOTest {
     @Test
     public void testPostDTOConstructor() {
         PostDTO postDTO = new PostDTO(post);
-
         Assert.assertEquals("1", postDTO.getId());
         Assert.assertEquals("100", postDTO.getUserId());
         Assert.assertEquals("Test Title", postDTO.getTitle());

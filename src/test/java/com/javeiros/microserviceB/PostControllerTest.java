@@ -38,7 +38,7 @@ public class PostControllerTest {
 
     @BeforeEach
     void setUp() {
-        post = new Post("1", "Title", "Body");
+        post = new Post("1", "1", "Title", "Body");
         postDTO = new PostDTO(post);
     }
 
@@ -69,6 +69,7 @@ public class PostControllerTest {
         when(postServices.fromDTO(any(PostDTO.class))).thenReturn(post);
         when(postServices.save(any(Post.class))).thenReturn(post);
         ResponseEntity<Post> response = postController.insertPost(postDTO);
+        System.out.println(response.getBody());
         assertEquals(201, response.getStatusCodeValue());
         assertNotNull(response.getBody());
     }

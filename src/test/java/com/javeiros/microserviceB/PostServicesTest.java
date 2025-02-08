@@ -39,7 +39,7 @@ public class PostServicesTest {
 
     @BeforeEach
     void setUp() {
-        post = new Post("1", "Title", "Body");
+        post = new Post("1", "1", "Title", "Body");
         postDTO = new PostDTO(post);
     }
 
@@ -100,6 +100,7 @@ public class PostServicesTest {
     public void findById() {
         when(postServices.findById("1")).thenReturn(post);
         Post result = postServices.findById("1");
+        System.out.println(result);
         assertEquals("1", result.getId());
     }
 
