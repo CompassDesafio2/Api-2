@@ -24,4 +24,6 @@ public class Post implements Serializable {
     private String body;
 
 
+    public Post(String number, String title, String body) {
+    }
 }
