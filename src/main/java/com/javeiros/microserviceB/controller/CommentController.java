@@ -25,7 +25,7 @@ public class CommentController {
     @Autowired
     private CommentServices services;
 
-    @Operation(summary = "Pegar Todos Commentar", description = "Pegar todos os Comentários salvas no banco",
+    @Operation(summary = "Pegar Todos Comentários", description = "Pegar todos os Comentários salvas no banco",
 
             responses = {
                     @ApiResponse(responseCode = "200",
@@ -86,7 +86,7 @@ public class CommentController {
 
             responses = {
                     @ApiResponse(responseCode = "201",
-                            description = " Novo Post Criado com Sucesso",
+                            description = " Novo Comentário Criado com Sucesso",
                             content = @Content(
                                     mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = CommentDTO.class))
@@ -103,7 +103,7 @@ public class CommentController {
 
     }
 
-    @Operation(summary = "Atualizar Comentário", description = "Atualizar todas as informações de uma Comentário através da ID informada",
+    @Operation(summary = "Atualizar Comentário", description = "Atualizar todas as informações de um Comentário através da ID informada",
 
             responses = {
                     @ApiResponse(responseCode = "204",
@@ -113,7 +113,7 @@ public class CommentController {
                                     schema = @Schema(implementation = CommentDTO.class))
                     ),
                     @ApiResponse(responseCode = "404",
-                            description = "Post Não Encontrado",
+                            description = "Comentário Não Encontrado",
                             content = @Content(
                                     mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = ErrorMessage.class))
@@ -121,7 +121,7 @@ public class CommentController {
 
             })
     @PutMapping("/{id}")
-    public ResponseEntity<Comment> updatePost(@PathVariable String id, @RequestBody CommentDTO objDTO) {
+    public ResponseEntity<Comment> updateComment(@PathVariable String id, @RequestBody CommentDTO objDTO) {
         Comment obj = services.fromDTO(objDTO);
         obj.setId(id);
         obj = services.updateComment(obj.getPostId(), obj);
@@ -130,24 +130,24 @@ public class CommentController {
     }
 
 
-    @Operation(summary = "Deletar POSTAGEM", description = "Deletar uma Comentário através da ID informada",
+    @Operation(summary = "Deletar Comentário", description = "Deletar uma Comentário através da ID informada",
 
             responses = {
                     @ApiResponse(responseCode = "204",
-                            description = "Comentário Deletada Com Sucesso",
+                            description = "Comentário Deletado Com Sucesso",
                             content = @Content(
                                     mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = CommentDTO.class))
                     ),
                     @ApiResponse(responseCode = "404",
-                            description = "Post Não Encontrado",
+                            description = "Comentário Não Encontrado",
                             content = @Content(
                                     mediaType = "application/json;charset=UTF-8",
                                     schema = @Schema(implementation = ErrorMessage.class))
                     ),
             })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable String id) {
+    public ResponseEntity<Void> deleteComment(@PathVariable String id) {
         services.delete(id);
         return ResponseEntity.noContent().build();
     }
