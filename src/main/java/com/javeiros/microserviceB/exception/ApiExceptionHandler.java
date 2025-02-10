@@ -1,5 +1,6 @@
 package com.javeiros.microserviceB.exception;
 
+import com.javeiros.microserviceB.jacoco.ExcludeFromJacocoGeneratedReport;
 import com.mongodb.MongoSocketOpenException;
 import com.mongodb.MongoSocketReadException;
 import com.mongodb.MongoTimeoutException;
@@ -13,10 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.Map;
-import java.util.concurrent.TimeoutException;
-
 @Slf4j
+@ExcludeFromJacocoGeneratedReport
 @RequiredArgsConstructor
 @RestControllerAdvice
 public class ApiExceptionHandler {

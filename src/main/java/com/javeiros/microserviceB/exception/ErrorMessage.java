@@ -1,6 +1,7 @@
 package com.javeiros.microserviceB.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.javeiros.microserviceB.jacoco.ExcludeFromJacocoGeneratedReport;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Data;
 import org.springframework.context.MessageSource;
@@ -13,6 +14,7 @@ import java.util.Locale;
 import java.util.Map;
 
 @Data
+@ExcludeFromJacocoGeneratedReport
 public class ErrorMessage {
     private String path;
     private String method;

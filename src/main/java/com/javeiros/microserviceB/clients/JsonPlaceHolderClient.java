@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 import java.util.List;
-
 @FeignClient(name = "jsonPlaceholderClient", url = "https://jsonplaceholder.typicode.com")
 public interface JsonPlaceHolderClient {
 
