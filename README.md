@@ -33,6 +33,8 @@ Se não, utilize o seguinte comando, caso tenha o Maven instalado em seu computa
     mvn spring-boot:run  
 ```
 
+OBS: Sera necessário ter Docker instalado no computador para a execução dos teste, banco de dados mongo para teste está sendo gerando pelo conainers do Spring
+
 
 Verifique o log de inicialização do Spring para ver se tudo está rodando conforme o planejado.
 
