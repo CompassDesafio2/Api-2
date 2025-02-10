@@ -54,7 +54,7 @@ public class CommentServices {
 
     public Comment updateComment(String id, Comment obj) {
         try {
-            Comment newComment = findById(obj.getId());
+            Comment newComment = findById(id);
             updateData(newComment, obj);
             return repository.save(newComment);
         } catch (EntityNotFoundException e) {
@@ -85,7 +85,6 @@ public class CommentServices {
 
     public Comment fromDTO(CommentDTO obj) {
         try {
-
             return new Comment(obj.getId(), obj.getPostId(), obj.getName(), obj.getEmail(), obj.getBody());
         } catch (EntityNotFoundException e) {
             throw new EntityNotFoundException("Comment not found");

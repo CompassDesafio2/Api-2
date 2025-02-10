@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor
 public class CommentDTO {
 
     String id;
@@ -14,6 +14,10 @@ public class CommentDTO {
     String name;
     String email;
     String body;
+
+    public CommentDTO() {
+
+    }
 
     public CommentDTO(Comment comment) {
         this.id = comment.getId();

@@ -96,7 +96,11 @@ public class CommentController {
             })
     @PostMapping("/{postId}")
     public ResponseEntity<Comment> insertComment(@PathVariable String postId, @RequestBody CommentDTO objDTO) {
+
+        System.out.println(objDTO);
         Comment obj = services.fromDTO(objDTO);
+        System.out.println(obj);
+
         obj = services.addComment(postId, obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(obj);

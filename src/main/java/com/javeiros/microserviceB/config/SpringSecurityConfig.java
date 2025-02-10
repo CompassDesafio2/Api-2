@@ -9,6 +9,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @EnableMethodSecurity
 @EnableWebMvc
 @Configuration
@@ -33,7 +35,9 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(DOCUMENTATION_OPENAPI).permitAll()
                         .anyRequest().permitAll()
+
                 ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .httpBasic(withDefaults())
                 .build();
     }
 
