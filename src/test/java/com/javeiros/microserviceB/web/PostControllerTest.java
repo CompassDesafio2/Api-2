@@ -1,4 +1,4 @@
-package com.javeiros.microserviceB;
+package com.javeiros.microserviceB.web;
 
 import com.javeiros.microserviceB.clients.JsonPlaceHolderService;
 import com.javeiros.microserviceB.controller.PostController;
@@ -10,20 +10,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class PostServicesTest {
+public class PostControllerTest {
 
     @InjectMocks
     private PostController postController;
@@ -70,6 +68,7 @@ public class PostServicesTest {
         when(postServices.fromDTO(any(PostDTO.class))).thenReturn(post);
         when(postServices.save(any(Post.class))).thenReturn(post);
         ResponseEntity<Post> response = postController.insertPost(postDTO);
+        System.out.println(response.getBody());
         assertEquals(201, response.getStatusCodeValue());
         assertNotNull(response.getBody());
     }
@@ -84,44 +83,7 @@ public class PostServicesTest {
 
     @Test
     public void deletePost() {
-        doNothing().when(postServices).delete("1");
         ResponseEntity<Void> response = postController.deletePost("1");
         assertEquals(204, response.getStatusCodeValue());
-    }
-
-    @Test
-    public void findAllPost() {
-        when(postServices.findAllPost()).thenReturn(Arrays.asList(post));
-        List<Post> result = postServices.findAllPost();
-        assertFalse(result.isEmpty());
-    }
-
-    @Test
-    public void findById() {
-        when(postServices.findById("1")).thenReturn(post);
-        Post result = postServices.findById("1");
-        System.out.println(result);
-        assertEquals("1", result.getId());
-    }
-
-    @Test
-    public void savePost() {
-        when(postServices.save(any(Post.class))).thenReturn(post);
-        Post result = postServices.save(post);
-        assertNotNull(result);
-    }
-
-    @Test
-    public void updatePostService() {
-        when(postServices.update(any(Post.class))).thenReturn(post);
-        Post result = postServices.update(post);
-        assertNotNull(result);
-    }
-
-    @Test
-    public void deletePostService() {
-        doNothing().when(postServices).delete("1");
-        postServices.delete("1");
-        verify(postServices, times(1)).delete("1");
     }
 }
