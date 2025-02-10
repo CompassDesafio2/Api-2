@@ -1,6 +1,7 @@
 package com.javeiros.microserviceB.domains;
 
 import com.javeiros.microserviceB.entities.Comment;
+import com.javeiros.microserviceB.entities.dto.CommentDTO;
 import com.javeiros.microserviceB.exception.EntityNotFoundException;
 import com.javeiros.microserviceB.repository.CommentRepository;
 import com.javeiros.microserviceB.services.CommentServices;
@@ -9,8 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -73,6 +72,17 @@ public class CommentServicesTest {
                 .hasMessage("Comment not found");
     }
 
+    @Test
+    public void getCommentByPostId_With_ValidPostId_ReturnsComment() {
+        when(commentRepository.findByPostId(COMMENT.getPostId())).thenReturn(COMMENT_LIST_POSTID);
+
+        List<Comment> commentList = commentServices.getCommentsByPost(COMMENT.getPostId());
+
+        assertThat(commentList).isNotEmpty();
+        assertThat(commentList).hasSize(COMMENT_LIST_POSTID.size());
+        assertThat(commentList.get(0)).isEqualTo(COMMENT_LIST_POSTID.get(0));
+    }
+
 
     @Test
     public void updateComment_With_ValidData_ReturnsUpdatedComment() {
@@ -93,12 +103,19 @@ public class CommentServicesTest {
     }
 
     @Test
+    public void updateComment_With_InvalidPostId_ThrowsEntityNotFoundException() {
+        when(commentRepository.findById(COMMENT.getId())).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> commentServices.updateComment(COMMENT.getId(), UPDATE_COMMENT))
+                .isInstanceOf(EntityNotFoundException.class);
+    }
+
+    @Test
     public void deleteComment_With_ValidId_DoesNotThrowException() {
         when(commentRepository.findById(COMMENT.getId())).thenReturn(Optional.of(COMMENT));
         assertThatCode(() -> commentServices.delete(COMMENT.getId())).doesNotThrowAnyException();
 
     }
-
 
     @Test
     public void deleteComment_With_InvalidId_DoesThrowException() {
@@ -107,6 +124,25 @@ public class CommentServicesTest {
         assertThatThrownBy(() -> commentServices.delete("99"))
                 .isInstanceOf(EntityNotFoundException.class)
                 .hasMessage("Comment not found");
+
+    }
+
+
+    @Test
+    public void fromDTO_With_ValidData_ReturnsComment() {
+       CommentDTO objDTO = COMMENT_DTO;
+
+       Comment comment = commentServices.fromDTO(objDTO);
+
+       assertThat(objDTO).isEqualTo(COMMENT_DTO);
+
+       assertThat(comment).isNotNull();
+       assertThat(objDTO.getId()).isEqualTo(comment.getId());
+       assertThat(objDTO.getPostId()).isEqualTo(comment.getPostId());
+       assertThat(objDTO.getName()).isEqualTo(comment.getName());
+       assertThat(objDTO.getEmail()).isEqualTo(comment.getEmail());
+       assertThat(objDTO.getBody()).isEqualTo(comment.getBody());
+
 
     }
 

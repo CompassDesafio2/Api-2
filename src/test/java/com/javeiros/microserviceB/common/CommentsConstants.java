@@ -19,6 +19,15 @@ public class CommentsConstants {
         add(new Comment("5", "5", "name", "email", "body"));
     }};
 
+    public static final List<Comment> COMMENT_LIST_POSTID = new ArrayList<>(){{
+        add(new Comment("1", "1", "name", "email", "body"));
+        add(new Comment("2", "1", "name", "email", "body"));
+        add(new Comment("3", "1", "name", "email", "body"));
+        add(new Comment("4", "1", "name", "email", "body"));
+        add(new Comment("5", "1", "name", "email", "body"));
+    }};
+
     public static final CommentDTO COMMENT_DTO = new CommentDTO(COMMENT);
+    public static final CommentDTO COMMENT_UPDATE_DTO = new CommentDTO(UPDATE_COMMENT);
 
 }

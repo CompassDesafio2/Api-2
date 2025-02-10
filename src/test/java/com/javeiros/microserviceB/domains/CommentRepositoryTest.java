@@ -16,6 +16,9 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+import java.util.List;
+import java.util.Optional;
+
 import static com.javeiros.microserviceB.common.CommentsConstants.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -72,12 +75,64 @@ public class CommentRepositoryTest {
 
 //    @Test
 //    public void createComment_With_InvalidData_ShouldThrowException() {
+//        assertThat(mongoDBContainer.isRunning()).isTrue();
 //
 //        assertThatThrownBy(() -> commentRepository.save(INVALID_COMMENT)).isInstanceOf(IllegalArgumentException.class);
 //        assertThatThrownBy(() -> commentRepository.save(EMPTY_COMMENTS)).isInstanceOf(IllegalArgumentException.class);
 //
-//
+
 //    }
+
+    @Test
+    public void findAllComments_With_Comments_ShouldReturnAllComments() {
+        assertThat(mongoDBContainer.isRunning()).isTrue();
+
+        for (Comment comment : COMMENT_LIST) {
+            mongoTemplate.save(comment);
+        }
+
+        List<Comment> comments = commentRepository.findAll();
+
+        assertThat(comments).isNotEmpty();
+        assertThat(comments.size()).isEqualTo(COMMENT_LIST.size());
+        assertThat(comments.get(0).getName()).isEqualTo(COMMENT_LIST.get(0).getName());
+        assertThat(comments.get(0).getPostId()).isEqualTo(COMMENT_LIST.get(0).getPostId());
+        assertThat(comments.get(0).getEmail()).isEqualTo(COMMENT_LIST.get(0).getEmail());
+        assertThat(comments.get(0).getName()).isEqualTo(COMMENT_LIST.get(0).getName());
+        assertThat(comments.get(0).getBody()).isEqualTo(COMMENT_LIST.get(0).getBody());
+    }
+
+    @Test
+    public void findAllComments_With_EmptyList_ShouldReturnEmptyList() {
+        assertThat(mongoDBContainer.isRunning()).isTrue();
+
+        List<Comment> comments = commentRepository.findAll();
+
+        assertThat(comments).isEmpty();
+
+    }
+
+
+
+    @Test
+    public void findyById_With_ValidData_ShouldFindComment() {
+        assertThat(mongoDBContainer.isRunning()).isTrue();
+
+        mongoTemplate.save(COMMENT);
+
+        Optional<Comment> comment = commentRepository.findById(COMMENT.getId());
+
+        assertThat(comment.isPresent()).isTrue();
+        assertThat(comment.get().getId()).isEqualTo(COMMENT.getId());
+        assertThat(comment.get().getPostId()).isEqualTo(COMMENT.getPostId());
+        assertThat(comment.get().getName()).isEqualTo(COMMENT.getName());
+        assertThat(comment.get().getEmail()).isEqualTo(COMMENT.getEmail());
+        assertThat(comment.get().getBody()).isEqualTo(COMMENT.getBody());
+
+    }
+
+
+
 
 
 
